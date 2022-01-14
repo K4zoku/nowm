@@ -1,0 +1,31 @@
+#######################
+# INDEPENDENT HOTKEYS #
+#######################
+
+# terminal
+super + Return
+    urxvt
+
+# reload sxhkd configuration files
+super + Escape
+    pkill -USR1 -x sxhkd
+
+################
+# NOWM HOTKEYS #
+################
+
+# [nowm] move
+super + ctrl + a : {Left,Down,Up,Right}
+    nowmc move {-4 0, 0 4, 0 -4, 4 0}
+
+# [nowm] resize
+super + ctrl + s : {Left,Down,Up,Right}
+    nowmc resize {-4 0, 0 4, 0 -4, 4 0}
+
+# [nowm] window close
+super + w
+    nowmc close
+
+# [nowm] focus
+ctrl + ~button1
+    nowmc focus

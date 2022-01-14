@@ -36,8 +36,20 @@ focus() {
     [ "${FOCUSING}" -eq "${WINDOW}" ] || xdotool windowfocus "${WINDOW}" windowraise "${WINDOW}"
 }
 
+close() { xdotool getwindowfocus windowclose }
+
+quit()  { xdotool getwindowfocus windowquit }
+
+killw() { xdotool getwindowfocus windowkill }
+
+exit_nowm() { [ -f "${NOWM_CONFIG_HOME}/nowm.pid" ] && kill $(cat "${NOWM_CONFIG_HOME}/nowm.pid") }
+
 case "${1}" in
     resize) resize "${2}" "${3}";;
     move)   move   "${2}" "${3}";;
     focus)  focus;;
+    close)  close;;
+    quit)   quit ;;
+    kill)   killw;;
+    exit)   exit_nowm;;
 esac
