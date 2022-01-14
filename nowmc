@@ -24,8 +24,8 @@ move() {
     relative_geometry
     W_X=$((W_X + "${1:-0}"))
     W_Y=$((W_Y + "${2:-0}"))
-    [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}" ] && W_X="$((D_WIDTH - W_WIDTH))"
-    [ "${W_Y}" -lt 0 ] && W_Y=0 || [ "${W_Y}" -gt "${D_HEIGHT}" ] && W_X="$((D_HEIGHT - W_HEIGHT))"
+    [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}" ]  && W_X="$((D_WIDTH - W_WIDTH))"
+    [ "${W_Y}" -lt 0 ] && W_Y=0 || [ "${W_Y}" -gt "${D_HEIGHT}" ] && W_Y="$((D_HEIGHT - W_HEIGHT))"
     xdotool getwindowfocus windowmove "${W_X}" "${W_Y}"
 }
 
