@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+
+relative_geometry() {
+    eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
+    echo "W_X=${X}"
+    echo "W_Y=${Y}"
+    echo "W_WIDTH=${WIDTH}"
+    echo "W_HEIGHT=${HEIGHT}"
+    eval "$(xdotool getdisplaygeometry --shell)"
+    echo "D_WIDTH=$((WIDTH - X))"
+    echo "D_HEIGHT=$((HEIGHT - Y))"
+}
+
+resize() {
+    eval "$(relative_geometry)"
+    W_WIDTH=$((W_WIDTH + "${1:-0}"))
+    W_HEIGHT=$((W_HEIGHT + "${2:-0}"))
+    [ "${W_WIDTH}"  -lt 1 ] && W_WIDTH=1  || [ "${W_WIDTH}"  -gt "${D_WIDTH}"  ] && W_WIDTH="${D_WIDTH}"
+    [ "${W_HEIGHT}" -lt 1 ] && W_HEIGHT=1 || [ "${W_HEIGHT}" -gt "${D_HEIGHT}" ] && W_HEIGHT="${D_HEIGHT}"
+    xdotool getwindowfocus windowsize "${W_WIDTH}" "${W_HEIGHT}"
+}
+
+move() {
+    eval "$(relative_geometry)"
+    W_X=$((W_X + "${1:-0}"))
+    W_Y=$((W_Y + "${2:-0}"))
+    [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}" ] && W_X="$((D_WIDTH - W_WIDTH))"
+    [ "${W_Y}" -lt 0 ] && W_Y=0 || [ "${W_Y}" -gt "${D_HEIGHT}" ] && W_X="$((D_HEIGHT - W_HEIGHT))"
+    xdotool getwindowfocus windowmove "${W_X}" "${W_Y}"
+}
+
+focus() {
+    FOCUSING=$(xdotool getwindowfocus)
+    declare "$(xdotool getmouselocation --shell | grep WINDOW)"
+    [ "${WINDOW}" -eq 0 ] && WINDOW="$(xdotool selectwindow)"
+    [ "${FOCUSING}" -eq "${WINDOW}" ] || xdotool windowfocus "${WINDOW}" windowraise "${WINDOW}"
+}
+
+case "${1}" in
+    resize) resize "${2}" "${3}";;
+    move)   move   "${2}" "${3}";;
+    focus)  focus;;
+esac
