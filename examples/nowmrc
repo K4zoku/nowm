@@ -1,3 +1,3 @@
 #!/bin/sh
 
-pgrep -x sxhkd || sxkhd -c "${XDG_CONFIG_HOME}/nowm/sxhkdrc" &
+pgrep -x sxhkd || sxkhd -c "${NOWM_CONFIG_HOME}/sxhkdrc" &
