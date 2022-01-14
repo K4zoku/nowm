@@ -2,12 +2,13 @@
 
 : ${XDG_CONFIG_HOME:=${HOME}/.config}
 NOWM_CONFIG_HOME="${XDG_CONFIG_HOME}/nowm"
+export NOWM_CONFIG_HOME
 echo $$ > "${NOWM_CONFIG_HOME}/nowm.pid"
 
 [ -f "${HOME}/.profile" ]                    && source "${HOME}/.profile"
 [ -f "${HOME}/.Xresources" ]                 && xrdb -merge "${HOME}/.Xresources"
 [ -f "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc"
 
-while :; do
-	# nothing
+while : ; do
+	: # nothing
 done
