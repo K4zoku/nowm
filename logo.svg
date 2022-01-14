@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1024"
+   height="1024"
+   viewBox="0 0 270.93333 270.93334"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#8e8e8e"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="0.47126122"
+     inkscape:cx="681.15089"
+     inkscape:cy="624.9188"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke:#ff0000;stroke-width:16.93333333;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="path846"
+       cx="135.46666"
+       cy="135.46666"
+       r="97.294769" />
+    <text
+       xml:space="preserve"
+       style="font-size:35.4723px;line-height:1.25;font-family:'Architects Daughter';-inkscape-font-specification:'Architects Daughter';stroke-width:0.264582"
+       x="134.29753"
+       y="121.88722"
+       id="text6504"><tspan
+         sodipodi:role="line"
+         id="tspan6502"
+         style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:35.4723px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Ultra-Bold';text-align:center;text-anchor:middle;stroke-width:0.264582"
+         x="134.29753"
+         y="121.88722">Window</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:35.4723px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Ultra-Bold';text-align:center;text-anchor:middle;stroke-width:0.264582"
+         x="134.29753"
+         y="168.04665"
+         id="tspan10022">Manager</tspan></text>
+    <path
+       style="fill:none;stroke:#ff0000;stroke-width:16.9333;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 71.315794,71.315793 199.61754,199.61754"
+       id="path1139" />
+  </g>
+</svg>
