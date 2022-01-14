@@ -1,18 +1,18 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 relative_geometry() {
     eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
-    echo "W_X=${X}"
-    echo "W_Y=${Y}"
-    echo "W_WIDTH=${WIDTH}"
-    echo "W_HEIGHT=${HEIGHT}"
+    W_X=${X}
+    W_Y=${Y}
+    W_WIDTH=${WIDTH}
+    W_HEIGHT=${HEIGHT}
     eval "$(xdotool getdisplaygeometry --shell)"
-    echo "D_WIDTH=$((WIDTH - X))"
-    echo "D_HEIGHT=$((HEIGHT - Y))"
+    D_WIDTH=$((WIDTH - X))
+    D_HEIGHT=$((HEIGHT - Y))
 }
 
 resize() {
-    eval "$(relative_geometry)"
+    relative_geometry
     W_WIDTH=$((W_WIDTH + "${1:-0}"))
     W_HEIGHT=$((W_HEIGHT + "${2:-0}"))
     [ "${W_WIDTH}"  -lt 1 ] && W_WIDTH=1  || [ "${W_WIDTH}"  -gt "${D_WIDTH}"  ] && W_WIDTH="${D_WIDTH}"
@@ -21,7 +21,7 @@ resize() {
 }
 
 move() {
-    eval "$(relative_geometry)"
+    relative_geometry
     W_X=$((W_X + "${1:-0}"))
     W_Y=$((W_Y + "${2:-0}"))
     [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}" ] && W_X="$((D_WIDTH - W_WIDTH))"
