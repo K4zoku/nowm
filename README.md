@@ -8,7 +8,7 @@
 
 ## 💡 About
 
-A dead simple tool to managing windows from the tty, written in shell script.
+A dead simple tool to managing windows from the [tty](https://en.wikipedia.org/wiki/Tty_(Unix)), written in shell script.
 
 ### ✨ Features
 
@@ -17,6 +17,8 @@ A dead simple tool to managing windows from the tty, written in shell script.
 - No [widgets](https://github.com/NNBnh/dots/wiki/wm-job#-widgets "Like bar, menu, ...").
 - No [Hotkeys](https://github.com/NNBnh/dots/wiki/wm-job#%EF%B8%8F-hotkeys).
 - No [wallpaper](https://github.com/NNBnh/dots/wiki/wm-job#%EF%B8%8F-wallpaper).
+- No [ICCCM](https://web.archive.org/web/20190617214524/https://raw.githubusercontent.com/kfish/xsel/1a1c5edf0dc129055f7764c666da2dd468df6016/rant.txt).
+- No [EWMH]().
 - And everything is float.
 
 ## 🚀 Setup
@@ -61,10 +63,10 @@ basher install K4zoku/nowm
 
 ## ⌨️ Usage
 
-Simply launch it from the [`tty`](https://en.wikipedia.org/wiki/Tty_(Unix)):
+Simply launch it from the [tty](https://en.wikipedia.org/wiki/Tty_(Unix)):
 
 ```sh
-nowm
+startx $(which nowm)
 ```
 
 ## ⚙️ Configuration
