@@ -24,6 +24,7 @@ A dead simple tool to managing windows from the tty, written in shell script.
 ### 🧾 Dependencies
 
 - [`bash`](https://www.gnu.org/software/bash)
+- [`Xorg`](https://www.x.org)
 - [`xdotool`](https://github.com/jordansissel/xdotool)
 
 ### 📥 Installation
@@ -60,7 +61,11 @@ basher install K4zoku/nowm
 
 ## ⌨️ Usage
 
-_#TODO_
+Simply launch it from the [`tty`](https://en.wikipedia.org/wiki/Tty_(Unix)):
+
+```sh
+nowm
+```
 
 ## ⚙️ Configuration
 
