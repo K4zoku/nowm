@@ -2,7 +2,7 @@
 <p align="center">Managing window without a window manager</p>
 <p align="center">
   <a href="logo.svg">
-    <img src="logo.svg" width="256px" height="256px">
+    <img src="https://user-images.githubusercontent.com/43980777/149610686-c5dec200-67fc-4b04-a651-336c479e8463.png" width="256px" height="256px">
   </a>
 </p>
 
@@ -80,7 +80,7 @@ You can also change that path by setting the environment variable `$NOWM_CONFIG_
 ## 💌 Credits
 
 Special thanks to:
-- [**NNB**](https://github.com/NNBnh) for polish this project's `README.md`.
+- [**NNB**](https://github.com/NNBnh) for polish this project's `README.md` and design [new logo](https://www.figma.com/file/NuxUjGNgfnCZ5fY5Q554ME/NoWM-Logo?node-id=0%3A1).
 
 <br><br><br><br>
 
