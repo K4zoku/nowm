@@ -8,17 +8,23 @@
 
 ## 💡 About
 
-_#TODO_
+A dead simple tool to managing windows from the tty, written in shell script.
 
 ### ✨ Features
 
-_#TODO_
+- No [virtual desktops](https://en.wikipedia.org/wiki/Virtual_desktop).
+- No [window decorations](https://en.wikipedia.org/wiki/Window_(computing)#Window_decoration).
+- No [widgets](https://github.com/NNBnh/dots/wiki/wm-job#-widgets "Like bar, menu, ...").
+- No [Hotkeys](https://github.com/NNBnh/dots/wiki/wm-job#%EF%B8%8F-hotkeys).
+- No [wallpaper](https://github.com/NNBnh/dots/wiki/wm-job#%EF%B8%8F-wallpaper).
+- And everything is float.
 
 ## 🚀 Setup
 
 ### 🧾 Dependencies
 
-_#TODO_
+- [`bash`](https://www.gnu.org/software/bash)
+- [`xdotool`](https://github.com/jordansissel/xdotool)
 
 ### 📥 Installation
 
@@ -58,7 +64,11 @@ _#TODO_
 
 ## ⚙️ Configuration
 
-_#TODO_
+To config NoWM, You can make a *executable file* at `~/.config/nowm/nowmrc`, NoWM will automatically start it at runtime.
+
+You can also change that path by setting the environment variable `$NOWM_CONFIG_HOME`.
+
+> _Check out some [examples](https://github.com/K4zoku/nowm/tree/master/examples)._
 
 ## 💌 Credits
 
