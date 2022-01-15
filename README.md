@@ -2,7 +2,7 @@
 <p align="center">Managing window without a window manager</p>
 <p align="center">
   <a href="logo.svg">
-    <img src="logo.svg" width="256px" height="256px">
+    <img src="https://user-images.githubusercontent.com/43980777/149610686-c5dec200-67fc-4b04-a651-336c479e8463.png" width="256px" height="256px">
   </a>
 </p>
 
