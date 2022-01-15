@@ -80,7 +80,7 @@ You can also change that path by setting the environment variable `$NOWM_CONFIG_
 ## 💌 Credits
 
 Special thanks to:
-- [**NNB**](https://github.com/NNBnh) for polish this project's `README.md`.
+- [**NNB**](https://github.com/NNBnh) for polish this project's `README.md` and design [new logo](https://www.figma.com/file/NuxUjGNgfnCZ5fY5Q554ME/NoWM-Logo?node-id=0%3A1).
 
 <br><br><br><br>
 
