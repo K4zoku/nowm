@@ -5,10 +5,10 @@ NOWM_CONFIG_HOME="${XDG_CONFIG_HOME}/nowm"
 export NOWM_CONFIG_HOME
 echo $$ > "${NOWM_CONFIG_HOME}/nowm.pid"
 
-[ -f "${HOME}/.profile" ]                    && source "${HOME}/.profile"
-[ -f "${HOME}/.Xresources" ]                 && xrdb -merge "${HOME}/.Xresources"
-[ -f "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc"
+[ -f "${HOME}/.profile" ]           && source "${HOME}/.profile"         2>&1 >/dev/null
+[ -f "${HOME}/.Xresources" ]        && xrdb -merge "${HOME}/.Xresources" 2>&1 >/dev/null
+[ -f "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc"      2>&1 >/dev/null
 
 while : ; do
-	: # nothing
+    : # nothing
 done

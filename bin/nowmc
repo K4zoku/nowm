@@ -2,13 +2,13 @@
 
 relative_geometry() {
     eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
-    W_X=${X}
-    W_Y=${Y}
-    W_WIDTH=${WIDTH}
-    W_HEIGHT=${HEIGHT}
+    W_X="${X}"
+    W_Y="${Y}"
+    W_WIDTH="${WIDTH}"
+    W_HEIGHT="${HEIGHT}"
     eval "$(xdotool getdisplaygeometry --shell)"
-    D_WIDTH=$((WIDTH - X))
-    D_HEIGHT=$((HEIGHT - Y))
+    D_WIDTH="$((WIDTH - X))"
+    D_HEIGHT="$((HEIGHT - Y))"
 }
 
 resize() {
@@ -24,7 +24,7 @@ move() {
     relative_geometry
     W_X=$((W_X + "${1:-0}"))
     W_Y=$((W_Y + "${2:-0}"))
-    [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}" ]  && W_X="$((D_WIDTH - W_WIDTH))"
+    [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}"  ] && W_X="$((D_WIDTH - W_WIDTH))"
     [ "${W_Y}" -lt 0 ] && W_Y=0 || [ "${W_Y}" -gt "${D_HEIGHT}" ] && W_Y="$((D_HEIGHT - W_HEIGHT))"
     xdotool getwindowfocus windowmove "${W_X}" "${W_Y}"
 }
@@ -36,20 +36,26 @@ focus() {
     [ "${FOCUSING}" -eq "${WINDOW}" ] || xdotool windowfocus "${WINDOW}" windowraise "${WINDOW}"
 }
 
-close() { xdotool getwindowfocus windowclose }
+close() { xdotool getwindowfocus windowclose; }
 
-quit()  { xdotool getwindowfocus windowquit }
+quit()  { xdotool getwindowfocus windowquit;  }
 
-killw() { xdotool getwindowfocus windowkill }
+killw() { xdotool getwindowfocus windowkill;  }
 
-exit_nowm() { [ -f "${NOWM_CONFIG_HOME}/nowm.pid" ] && kill $(cat "${NOWM_CONFIG_HOME}/nowm.pid") }
+exit_nowm() {
+    if [ -f "${NOWM_CONFIG_HOME}/nowm.pid" ]; then
+        kill $(cat "${NOWM_CONFIG_HOME}/nowm.pid")
+        rm -f "${NOWM_CONFIG_HOME}/nowm.pid"
+    fi
+}
 
 case "${1}" in
-    resize) resize "${2}" "${3}";;
-    move)   move   "${2}" "${3}";;
-    focus)  focus;;
-    close)  close;;
-    quit)   quit ;;
-    kill)   killw;;
-    exit)   exit_nowm;;
+    resize)      resize "${2}" "${3}";;
+    move)        move   "${2}" "${3}";;
+    focus)       focus               ;;
+    close)       close               ;;
+    quit)        quit                ;;
+    kill)        killw               ;;
+    exit_nowm)   exit_nowm           ;;
 esac
+
