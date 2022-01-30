@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-relative_geometry() {
+geometry() {
     eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
     WX="${X}"
     WY="${Y}"
@@ -12,7 +12,7 @@ relative_geometry() {
 }
 
 resize() {
-    relative_geometry
+    geometry
     W_WIDTH=$((W_WIDTH + "${1:-0}"))
     W_HEIGHT=$((W_HEIGHT + "${2:-0}"))
     [ "${W_WIDTH}"  -lt 1 ] && W_WIDTH=1  || [ "${W_WIDTH}"  -gt "${D_WIDTH}"  ] && W_WIDTH="${D_WIDTH}"
@@ -21,7 +21,7 @@ resize() {
 }
 
 move() {
-    relative_geometry
+    geometry
     WX=$((WX + "${1:-0}"))
     WY=$((WY + "${2:-0}"))
     [ "${WX}" -lt 0 ] && WX=0 || [ "${WX}" -gt "${D_WIDTH}"  ] && WX="$((D_WIDTH - W_WIDTH))"
@@ -29,15 +29,16 @@ move() {
     xdotool getwindowfocus windowmove "${WX}" "${WY}"
 }
 
-focus() {
-    FOCUSING=$(xdotool getwindowfocus)
-    declare "$(xdotool getmouselocation --shell | grep WINDOW)"
-    [ "${WINDOW}" -eq 0 ] && WINDOW="$(xdotool selectwindow)"
-    [ "${FOCUSING}" -eq "${WINDOW}" ] || xdotool windowfocus "${WINDOW}" windowraise "${WINDOW}"
+pointer_focus() {
+    xdotool getmouselocation windowfocus
+}
+
+select_focus() {
+    xdotool selectwindow windowfocus
 }
 
 center() {
-    relative_geometry
+    geometry
     WX=$(( (WIDTH - W_WIDTH) / 2 ))
     WY=$(( (HEIGHT - W_HEIGHT) / 2 ))
     xdotool getwindowfocus windowmove "${WX}" "${WY}"
@@ -57,14 +58,15 @@ exit_nowm() {
 }
 
 case "${1}" in
-    resize)      resize "${2}" "${3}";;
-    move)        move   "${2}" "${3}";;
-    focus)       focus               ;;
-    center)      center              ;;
-    close)       close               ;;
-    quit)        quit                ;;
-    kill)        killw               ;;
-    exit_nowm)   exit_nowm           ;;
-    *)           exit 1              ;;
+    resize)         resize "${2}" "${3}";;
+    move)           move   "${2}" "${3}";;
+    pointer_focus)  pointer_focus       ;;
+    select_focus)   select_focus        ;;
+    center)         center              ;;
+    close)          close               ;;
+    quit)           quit                ;;
+    kill)           killw               ;;
+    exit_nowm)      exit_nowm           ;;
+    *)              exit 1              ;;
 esac
 

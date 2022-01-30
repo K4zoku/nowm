@@ -1,37 +1,23 @@
 #!/usr/bin/env bash
 
+# setting up env
 : ${XDG_CONFIG_HOME:=${HOME}/.config}
 NOWM_CONFIG_HOME="${XDG_CONFIG_HOME}/nowm"
 export NOWM_CONFIG_HOME
+
+# writing pid to file
 echo $$ > "${NOWM_CONFIG_HOME}/nowm.pid"
 
-xprop -root -f _NET_SUPPORTED 32a -set _NET_SUPPORTED "_NET_SUPPORTED, _NET_ACTIVE_WINDOW, _NET_CLIENT_LIST"
-
+# load ~/.profile
 [ -f "${HOME}/.profile" ]           && source "${HOME}/.profile"         2>&1 >/dev/null
+
+# load ~/.Xresources
 [ -f "${HOME}/.Xresources" ]        && xrdb -merge "${HOME}/.Xresources" 2>&1 >/dev/null
+
+# load ~/nowm/nowmrc
 [ -f "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc"      2>&1 >/dev/null
 
-gettime() { date "+%s%N"; }
-
-dec2hex() { printf "0x%x" "${1:-0}"; }
-
-refresh_rate=60
-interval=$(( 1000000000 / refresh_rate ))
-
-now="$(gettime)"
-last="${now}"
-clients=()
+# main loop
 while : ; do
-    delta="$((last - now))"
-    now="$(gettime)"
-    if [ "${delta}" -eq 0 ] || [ "${delta}" -ge "${interval}" ]; then
-        last="${now}"
-
-        focusing=$(xdotool getwindowfocus)
-        # xprop -root -f _NET_ACTIVE_WINDOW 32x -set _NET_ACTIVE_WINDOW "$(dec2hex "${focusing}")"
-        xdotool getwindowfocus windowactivate
-
-        # TODO: _NET_CLIENT_LIST
-        # clients+=??
-    fi
+    : # do nothing
 done
