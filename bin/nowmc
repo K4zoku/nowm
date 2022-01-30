@@ -2,8 +2,8 @@
 
 relative_geometry() {
     eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
-    W_X="${X}"
-    W_Y="${Y}"
+    WX="${X}"
+    WY="${Y}"
     W_WIDTH="${WIDTH}"
     W_HEIGHT="${HEIGHT}"
     eval "$(xdotool getdisplaygeometry --shell)"
@@ -22,11 +22,11 @@ resize() {
 
 move() {
     relative_geometry
-    W_X=$((W_X + "${1:-0}"))
-    W_Y=$((W_Y + "${2:-0}"))
-    [ "${W_X}" -lt 0 ] && W_X=0 || [ "${W_X}" -gt "${D_WIDTH}"  ] && W_X="$((D_WIDTH - W_WIDTH))"
-    [ "${W_Y}" -lt 0 ] && W_Y=0 || [ "${W_Y}" -gt "${D_HEIGHT}" ] && W_Y="$((D_HEIGHT - W_HEIGHT))"
-    xdotool getwindowfocus windowmove "${W_X}" "${W_Y}"
+    WX=$((WX + "${1:-0}"))
+    WY=$((WY + "${2:-0}"))
+    [ "${WX}" -lt 0 ] && WX=0 || [ "${WX}" -gt "${D_WIDTH}"  ] && WX="$((D_WIDTH - W_WIDTH))"
+    [ "${WY}" -lt 0 ] && WY=0 || [ "${WY}" -gt "${D_HEIGHT}" ] && WY="$((D_HEIGHT - W_HEIGHT))"
+    xdotool getwindowfocus windowmove "${WX}" "${WY}"
 }
 
 focus() {
@@ -34,6 +34,13 @@ focus() {
     declare "$(xdotool getmouselocation --shell | grep WINDOW)"
     [ "${WINDOW}" -eq 0 ] && WINDOW="$(xdotool selectwindow)"
     [ "${FOCUSING}" -eq "${WINDOW}" ] || xdotool windowfocus "${WINDOW}" windowraise "${WINDOW}"
+}
+
+center() {
+    relative_geometry
+    WX=$(( (WIDTH - W_WIDTH) / 2 ))
+    WY=$(( (HEIGHT - W_HEIGHT) / 2 ))
+    xdotool getwindowfocus windowmove "${WX}" "${WY}"
 }
 
 close() { xdotool getwindowfocus windowclose; }
@@ -53,9 +60,11 @@ case "${1}" in
     resize)      resize "${2}" "${3}";;
     move)        move   "${2}" "${3}";;
     focus)       focus               ;;
+    center)      center              ;;
     close)       close               ;;
     quit)        quit                ;;
     kill)        killw               ;;
     exit_nowm)   exit_nowm           ;;
+    *)           exit 1              ;;
 esac
 
