@@ -1,18 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # setting up env
 NOWM_CONFIG_HOME="${XDG_CONFIG_HOME:=${HOME}/.config}/nowm"
 export NOWM_CONFIG_HOME
 
-# saving pid for later use
-NOWM_PID=$$
-export NOWM_PID
-echo $$ > "${NOWM_CONFIG_HOME}/nowm.pid"
-
 # load ~/nowm/nowmrc
 [ -x "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc" 2>&1 >/dev/null &
 
-# main loop
-while : ; do
-    : # do nothing
-done
+# main loop (do nothing)
+while : ; do : ; done
