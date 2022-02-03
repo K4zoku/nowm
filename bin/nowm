@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
 
 # setting up env
-: ${XDG_CONFIG_HOME:=${HOME}/.config}
-NOWM_CONFIG_HOME="${XDG_CONFIG_HOME}/nowm"
+NOWM_CONFIG_HOME="${XDG_CONFIG_HOME:=${HOME}/.config}/nowm"
 export NOWM_CONFIG_HOME
 
-# writing pid to file
+# saving pid for later use
+NOWM_PID=$$
+export NOWM_PID
 echo $$ > "${NOWM_CONFIG_HOME}/nowm.pid"
 
-# load ~/.profile
-[ -f "${HOME}/.profile" ]           && source "${HOME}/.profile"         2>&1 >/dev/null
-
-# load ~/.Xresources
-[ -f "${HOME}/.Xresources" ]        && xrdb -merge "${HOME}/.Xresources" 2>&1 >/dev/null
-
 # load ~/nowm/nowmrc
-[ -f "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc"      2>&1 >/dev/null
+[ -x "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc" 2>&1 >/dev/null &
 
 # main loop
 while : ; do
