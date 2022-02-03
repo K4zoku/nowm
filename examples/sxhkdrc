@@ -32,4 +32,4 @@ super + w
 
 # [nowm] focus
 ~button1
-    nowm pointer_focus | nowm select_focus
+    nowm pointer_focus

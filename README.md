@@ -24,10 +24,10 @@ A dead simple tool to managing windows from the [tty](https://en.wikipedia.org/w
 
 ### 🧾 Dependencies
 
-- [`bash`](https://www.gnu.org/software/bash)
-- [`Xorg`](https://www.x.org)
+- [`sh`](https://en.wikipedia.org/wiki/Unix_shell)
+- [`xorg`](https://www.x.org)
+- [`xorg-xinit`](https://x.org/releases/X11R7.6/doc/man/man1/xinit.1.xhtml)
 - [`xdotool`](https://github.com/jordansissel/xdotool)
-- [`xprop`](https://gitlab.freedesktop.org/xorg/app/xprop)
 
 ### 📥 Installation
 
@@ -66,16 +66,14 @@ basher install K4zoku/nowm
 Simply launch it from the [tty](https://en.wikipedia.org/wiki/Tty_(Unix)):
 
 ```sh
-startx $(which nowm)
+nowm
 ```
 
 ## ⚙️ Configuration
 
-To config NoWM, You can make a *executable file* at `~/.config/nowm/nowmrc`, NoWM will automatically start it at runtime.
+To config NoWM, You can make a *executable file* at `~/.config/nowm/autostart`, NoWM will automatically start it at runtime.
 
-You can also change that path by setting the environment variable `$NOWM_CONFIG_HOME`.
-
-> _Check out some [examples](https://github.com/K4zoku/nowm/tree/master/examples)._
+> _Check out some [examples](examples)._
 
 ## 💌 Credits
 
