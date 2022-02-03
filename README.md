@@ -26,7 +26,7 @@ A dead simple tool to managing windows from the [tty](https://en.wikipedia.org/w
 
 - [`sh`](https://en.wikipedia.org/wiki/Unix_shell)
 - [`xorg`](https://www.x.org)
-- [`xorg-xinit`](https://x.org/releases/X11R7.6/doc/man/man1/xinit.1.xhtml)
+- [`xorg-xinit`](https://x.org/releases/X11R7.6/doc/man/man1/xinit.1.xhtml) _(optional)_
 - [`xdotool`](https://github.com/jordansissel/xdotool)
 
 ### 📥 Installation
