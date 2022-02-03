@@ -1,6 +1,6 @@
-#######################
-# INDEPENDENT HOTKEYS #
-#######################
+##########################
+# WM INDEPENDENT HOTKEYS #
+##########################
 
 # terminal
 super + Return
@@ -14,18 +14,22 @@ super + Escape
 # NOWM HOTKEYS #
 ################
 
+# [nowm] logout
+super + alt + q
+    nowm logout
+
 # [nowm] move
-super + ctrl + a : {Left,Down,Up,Right}
-    nowmc move {-4 0, 0 4, 0 -4, 4 0}
+super + {Left,Down,Up,Right}
+    nowm move_relative {-4 0, 0 4, 0 -4, 4 0}
 
 # [nowm] resize
-super + ctrl + s : {Left,Down,Up,Right}
-    nowmc resize {-4 0, 0 4, 0 -4, 4 0}
+super + {a,s,w,d}
+    nowm resize_relative {-4 0, 0 4, 0 -4, 4 0}
 
 # [nowm] window close
 super + w
-    nowmc close
+    nowm close
 
 # [nowm] focus
-ctrl + ~button1
-    nowmc focus
+~button1
+    nowm pointer_focus | nowm select_focus

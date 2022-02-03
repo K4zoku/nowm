@@ -1,11 +1,62 @@
 #!/bin/sh
 
-# setting up env
-NOWM_CONFIG_HOME="${XDG_CONFIG_HOME:=${HOME}/.config}/nowm"
-export NOWM_CONFIG_HOME
+resize() { xdotool getwindowfocus windowsize "${1:-0}" "${2:-0}"; }
 
-# load ~/nowm/nowmrc
-[ -x "${NOWM_CONFIG_HOME}/nowmrc" ] && "${NOWM_CONFIG_HOME}/nowmrc" 2>&1 >/dev/null &
+resize_relative() {
+    eval "$(xdotool getwindowfocus getwindowgeometry --shell | head -n5)"
+    W_WIDTH=$(( WIDTH + "${1:-0}" )); W_HEIGHT=$(( HEIGHT + "${2:-0}" ))
+    eval "$(xdotool getdisplaygeometry --shell)"
+    D_WIDTH="$(( WIDTH - X ))"; D_HEIGHT="$(( HEIGHT - Y ))"
+    if [ "${W_WIDTH}"  -lt 1 ]; then W_WIDTH=1;  elif [ "${W_WIDTH}"  -gt "${D_WIDTH}"  ]; W_WIDTH="${D_WIDTH}";   fi
+    if [ "${W_HEIGHT}" -lt 1 ]; then W_HEIGHT=1; elif [ "${W_HEIGHT}" -gt "${D_HEIGHT}" ]; W_HEIGHT="${D_HEIGHT}"; fi
+    xdotool windowsize "${WINDOW}" "${W_WIDTH}" "${W_HEIGHT}"
+}
 
-# main loop (do nothing)
-while : ; do : ; done
+move() { xdotool getwindowfocus windowmove "${1:-0}" "${2:-0}"; }
+
+move_relative() { xdotool getwindowfocus windowmove --relative "${1:-0}" "${2:-0}"; }
+
+center() {
+    eval "$(xdotool getwindowfocus getwindowgeometry --shell | tail -n3 | head -n2)"
+    W_WIDTH="${WIDTH}"; W_HEIGHT="${HEIGHT}"
+    eval "$(xdotool getdisplaygeometry --shell)"
+    move "$(( (WIDTH - W_WIDTH) / 2 ))" "$(( (HEIGHT - W_HEIGHT) / 2 ))"
+}
+
+pointer_focus() { xdotool getmouselocation windowfocus; }
+
+select_focus() { xdotool selectwindow windowfocus; }
+
+close() { xdotool getwindowfocus windowclose; }
+
+quit()  { xdotool getwindowfocus windowquit;  }
+
+window_kill() { xdotool getwindowfocus windowkill;  }
+
+nowm_logout() { pkill -KILL -u "$(whoami)"; }
+
+nowm_main() {
+    # load ~/nowm/autostart
+    NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
+    [ -x "${NOWM_AUTOSTART}" ] && "${NOWM_AUTOSTART}" >/dev/null 2>&1 &
+    # main loop (do nothing)
+    while : ; do : ; done
+}
+
+noargs() { if [ -z "${DISPLAY}" ]; then exec startx "$(which nowm)"; else nowm_main; fi; }
+
+case "${1}" in
+    "")              noargs || exit 1             ;;
+    resize)          resize          "${2}" "${3}";;
+    resize_relative) resize_relative "${2}" "${3}";;
+    move)            move            "${2}" "${3}";;
+    move_relative)   move_relative   "${2}" "${3}";;
+    center)          center                       ;;
+    pointer_focus)   pointer_focus                ;;
+    select_focus)    select_focus                 ;;
+    close)           close                        ;;
+    quit)            quit                         ;;
+    kill)            window_kill                  ;;
+    logout)          nowm_logout                  ;;
+    *)               exit 1                       ;;
+esac
