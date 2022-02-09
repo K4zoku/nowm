@@ -78,7 +78,7 @@ To config NoWM, You can make a *executable file* at `~/.config/nowm/autostart`, 
 ## 💌 Credits
 
 Special thanks to:
-- [**NNB**](https://github.com/NNBnh) for polish this project's `README.md` and design [new logo](https://www.figma.com/file/NuxUjGNgfnCZ5fY5Q554ME/NoWM-Logo?node-id=0%3A1).
+- [**NNB**](https://github.com/NNBnh) for polish this project's `README.md`, write the manpage and design [new logo](https://www.figma.com/file/NuxUjGNgfnCZ5fY5Q554ME/NoWM-Logo?node-id=0%3A1).
 
 <br><br><br><br>
 
