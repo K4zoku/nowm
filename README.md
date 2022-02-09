@@ -82,7 +82,15 @@ You can put NoWM inside `.xinitrc`:
 exec nowm
 ```
 
-> _If you using a display manager then create a `.desktop` file to launch NoWM._
+> _If you using a display manager then create a file called `nowm.desktop` in `/usr/share/xsessions` with following content:._
+```ini
+[Desktop Entry]
+Encoding=UTF-8
+Name=nowm
+Comment=nowm - managing window without a window manager
+Exec=nowm
+Type=XSession
+```
 
 ## ⚙️ Configuration
 
