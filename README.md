@@ -64,25 +64,42 @@ basher install K4zoku/nowm
 
 ## ⌨️ Usage
 
+#### 🖥️ Launch from TTY
+
+##### Automatically
+
 Simply launch it from the [tty](https://en.wikipedia.org/wiki/Tty_(Unix)):
 
 ```sh
 nowm
 ```
 
-this will launch NoWM inside X display server with `startx`. But you could also do:
+this will launch NoWM inside X display server with `startx`.
+
+##### Manually
 
 ```sh
 startx $(which nowm)
 ```
 
-You can put NoWM inside `.xinitrc`:
+or
+
+```sh
+xinit $(which nowm)
+```
+
+or
+
+You can put NoWM inside `~/.xinitrc`:
 
 ```sh
 exec nowm
 ```
 
-> _If you using a display manager then create a file called `nowm.desktop` in `/usr/share/xsessions` with following content:._
+### Using display manager
+
+If you using a display manager, create a file called `nowm.desktop` in `/usr/share/xsessions` with following content:
+
 ```ini
 [Desktop Entry]
 Encoding=UTF-8
@@ -94,7 +111,7 @@ Type=XSession
 
 ## ⚙️ Configuration
 
-To config NoWM, You can make a *executable file* at `~/.config/nowm/autostart`, NoWM will automatically start it at runtime.
+To config NoWM, you can make a *executable file* at `~/.config/nowm/autostart`, NoWM will automatically start it at runtime.
 
 > _Check out some [examples](examples)._
 
