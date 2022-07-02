@@ -35,12 +35,14 @@ A dead simple tool to managing windows from the [tty](https://en.wikipedia.org/w
 #### 🔧 Manually
 
 Option 1: using `curl`
+
 ```sh
 curl https://raw.githubusercontent.com/K4zoku/nowm/master/bin/nowm > ~/.local/bin/nowm
 chmod +x ~/.local/bin/nowm
 ```
 
 Option 2: using `git`
+
 ```sh
 git clone https://github.com/K4zoku/nowm.git ~/.local/share/nowm
 ln -s ~/.local/share/nowm/bin/nowm ~/.local/bin/nowm
@@ -60,7 +62,7 @@ For [Basher](https://github.com/basherpm/basher) user:
 basher install K4zoku/nowm
 ```
 
-> *If you can and want to port NoWM to other package managers, feel free to do so.*
+> **Note** If you can and want to port NoWM to other package managers, feel free to do so.
 
 ## ⌨️ Usage
 
@@ -113,7 +115,7 @@ Type=XSession
 
 To config NoWM, you can make a *executable file* at `~/.config/nowm/autostart`, NoWM will automatically start it at runtime.
 
-> _Check out some [examples](examples)._
+> **Note** Check out some [examples](examples).
 
 ## 💌 Credits
 
