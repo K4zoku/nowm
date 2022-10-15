@@ -62,6 +62,23 @@ For [Basher](https://github.com/basherpm/basher) user:
 basher install K4zoku/nowm
 ```
 
+Using [Arch User Repository](https://aur.archlinux.org):
+
+Use your preferred AUR helper:
+
+```sh
+yay -S nowm-git
+```
+
+or install it manually:
+
+```sh
+git clone https://aur.archlinux.org/packages/nowm-git
+cd nowm-git
+makepkg -si
+```
+
+
 > **Note** If you can and want to port NoWM to other package managers, feel free to do so.
 
 ## ⌨️ Usage
