@@ -1,74 +1,107 @@
 #!/bin/sh
 
-resize() { xdotool getwindowfocus windowsize "${1:-0}" "${2:-0}"; }
-
-resize_relative() {
-    eval "$(xdotool getwindowfocus getwindowgeometry --shell | head -n5)"
-    W_WIDTH=$(( WIDTH + "${1:-0}" )); W_HEIGHT=$(( HEIGHT + "${2:-0}" ))
-    eval "$(xdotool getdisplaygeometry --shell)"
-    DR_WIDTH="$(( WIDTH - X ))"; DR_HEIGHT="$(( HEIGHT - Y ))"
-    [ "${W_WIDTH}"  -lt 1 ] && W_WIDTH=1  || [ "${W_WIDTH}"  -gt "${DR_WIDTH}"  ] && W_WIDTH="${DR_WIDTH}"
-    [ "${W_HEIGHT}" -lt 1 ] && W_HEIGHT=1 || [ "${W_HEIGHT}" -gt "${DR_HEIGHT}" ] && W_HEIGHT="${DR_HEIGHT}"
-    xdotool windowsize "${WINDOW}" "${W_WIDTH}" "${W_HEIGHT}"
+_resize() {
+	xdotool getwindowfocus windowsize -- "${1:-0}" "${2:-0}"
 }
 
-move() { xdotool getwindowfocus windowmove "${1:-0}" "${2:-0}"; }
+_resize_relative() {
+	eval "$(xdotool getwindowfocus getwindowgeometry --shell | awk "/WIDTH|HEIGHT/")"
+	WINDOW_WIDTH=$(( WIDTH + "${1:-0}" ))
+	WINDOW_HEIGHT=$(( HEIGHT + "${2:-0}" ))
 
-move_relative() { xdotool getwindowfocus windowmove --relative "${1:-0}" "${2:-0}"; }
+	eval "$(xdotool getdisplaygeometry --shell | awk "/WIDTH|HEIGHT|X|Y/")"
+	DISPLAY_WIDTH="$(( WIDTH - X ))"
+	DISPLAY_HEIGHT="$(( HEIGHT - Y ))"
 
-center() {
-    eval "$(xdotool getwindowfocus getwindowgeometry --shell | tail -n3 | head -n2)"
-    W_WIDTH="${WIDTH}"; W_HEIGHT="${HEIGHT}"
-    eval "$(xdotool getdisplaygeometry --shell)"
-    move "$(( (WIDTH - W_WIDTH) / 2 ))" "$(( (HEIGHT - W_HEIGHT) / 2 ))"
+	if [[ "${WINDOW_WIDTH}" < 1 ]]; then
+		WINDOW_WIDTH=1
+	elif [[ "${WINDOW_WIDTH}" > "${DISPLAY_WIDTH}" ]]; then
+		WINDOW_WIDTH="${DISPLAY_WIDTH}"
+	fi
+
+	if [[ "${WINDOW_HEIGHT}" < 1 ]]; then
+		WINDOW_HEIGHT=1
+	elif [[ "${WINDOW_HEIGHT}" > "${DISPLAY_HEIGHT}" ]]; then
+		WINDOW_HEIGHT="${DISPLAY_HEIGHT}"
+	fi
+
+	xdotool windowsize -- "${WINDOW}" "${WINDOW_WIDTH}" "${WINDOW_HEIGHT}"
 }
 
-snap() {
-    eval "$(xdotool getwindowfocus getwindowgeometry --shell | head -n5)"
-    W_WIDTH="${WIDTH}"; W_HEIGHT="${HEIGHT}"
-    eval "$(xdotool getdisplaygeometry --shell)"
-    case "${1:-0}" in
-        left)   move 0 y                         ;;
-        bottom) move x "$(( HEIGHT - W_HEIGHT ))";;
-        top)    move x 0                         ;;
-        right)  move "$(( WIDTH - W_WIDTH ))" y  ;;
-        *)      move x y                         ;;
-    esac
+_move() {
+	xdotool getwindowfocus windowmove -- "${1:-0}" "${2:-0}"
 }
 
-pointer_focus() { xdotool getmouselocation windowfocus; }
+_move_relative() {
+	xdotool getwindowfocus windowmove --relative -- "${1:-0}" "${2:-0}"
+}
 
-select_focus() { xdotool selectwindow windowfocus; }
+_center() {
+	eval "$(xdotool getwindowfocus getwindowgeometry --shell | tail -n3 | head -n2)"
+	WINDOW_WIDTH="${WIDTH}"
+	WINDOW_HEIGHT="${HEIGHT}"
+	eval "$(xdotool getdisplaygeometry --shell | awk "/WIDTH|HEIGHT/")"
+	move "$(( (WIDTH - WINDOW_WIDTH) / 2 ))" "$(( (HEIGHT - WINDOW_HEIGHT) / 2 ))"
+}
 
-close() { xdotool getwindowfocus windowclose; }
+_snap() {
+	eval "$(xdotool getwindowfocus getwindowgeometry --shell | awk "/WIDTH|HEIGHT/")"
+	W_WIDTH="${WIDTH}"
+	W_HEIGHT="${HEIGHT}"
+	eval "$(xdotool getdisplaygeometry --shell)"
+	case "${1:-0}" in
+	    left)   move 0 y                         ;;
+	    bottom) move x "$(( HEIGHT - W_HEIGHT ))";;
+	    top)    move x 0                         ;;
+	    right)  move "$(( WIDTH - W_WIDTH ))" y  ;;
+	    *)      move x y                         ;;
+	esac
+}
 
-quit() { xdotool getwindowfocus windowquit;  }
+_pointer_focus() {
+	xdotool getmouselocation windowfocus
+}
 
-window_kill() { xdotool getwindowfocus windowkill;  }
+_select_focus() {
+	xdotool selectwindow windowfocus
+}
 
-nowm_logout() { pkill -KILL -u "$(whoami)"; }
+_close() {
+	xdotool getwindowfocus windowclose
+}
+
+_quit() {
+	xdotool getwindowfocus windowquit
+}
+
+_kill() {
+	xdotool getwindowfocus windowkill
+}
+
+_logout() {
+	pkill -KILL -u "$(whoami)"
+}
 
 nowm_main() {
-    NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
-    [ -x "${NOWM_AUTOSTART}" ] && "${NOWM_AUTOSTART}" >/dev/null 2>&1 &
-    while : ; do : ; done
+	NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
+	[ -x "${NOWM_AUTOSTART}" ] && "${NOWM_AUTOSTART}" >/dev/null 2>&1 &
+	sleep infinity
 }
 
-noargs() { if [ -z "${DISPLAY}" ]; then exec startx "$(which nowm)"; else nowm_main; fi; }
+noargs() {
+	if [ -z "${DISPLAY}" ]; then
+		exec startx "$(which nowm)"
+	else
+		nowm_main
+	fi
+}
 
-case "${1}" in
-    "")              noargs || exit 1             ;;
-    resize)          resize          "${2}" "${3}";;
-    resize_relative) resize_relative "${2}" "${3}";;
-    move)            move            "${2}" "${3}";;
-    move_relative)   move_relative   "${2}" "${3}";;
-    center)          center                       ;;
-    snap)            snap            "${2}"       ;;
-    pointer_focus)   pointer_focus                ;;
-    select_focus)    select_focus                 ;;
-    close)           close                        ;;
-    quit)            quit                         ;;
-    kill)            window_kill                  ;;
-    logout)          nowm_logout                  ;;
-    *)               exit 1                       ;;
-esac
+valid="resize|resize_relative|move|move_relative|center|snap|pointer_focus|select_focus|close|quit|kill|logout"
+if [[ "$1" =~ ^(${valid})$ ]]; then
+	_"$1" "${@:2}"
+elif [[ -z "$1" ]]; then
+	noargs
+else
+	echo "Invalid command: $1"
+	exit 1
+fi
