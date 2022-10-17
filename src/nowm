@@ -60,6 +60,10 @@ _snap() {
 
 _pointer_focus() {
 	xdotool getmouselocation windowfocus
+
+	if [[ "$NOWM_RAISE_FOCUS" ]]; then
+		xdotool getwindowfocus windowraise
+	fi
 }
 
 _select_focus() {
@@ -82,17 +86,15 @@ _logout() {
 	pkill -KILL -u "$(whoami)"
 }
 
-nowm_main() {
-	NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
-	[ -x "${NOWM_AUTOSTART}" ] && "${NOWM_AUTOSTART}" >/dev/null 2>&1 &
-	sleep infinity
-}
-
 noargs() {
 	if [ -z "${DISPLAY}" ]; then
+		NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
+		if [[ -f "${NOWM_AUTOSTART}" ]]; then
+			source "${NOWM_AUTOSTART}"
+		fi
 		exec startx "$(which nowm)"
 	else
-		nowm_main
+		sleep infinity
 	fi
 }
 

@@ -37,7 +37,7 @@ A dead simple tool to managing windows from the [tty](https://en.wikipedia.org/w
 Option 1: using `curl`
 
 ```sh
-curl https://raw.githubusercontent.com/K4zoku/nowm/master/bin/nowm > ~/.local/bin/nowm
+curl https://raw.githubusercontent.com/K4zoku/nowm/master/src/nowm > ~/.local/bin/nowm
 chmod +x ~/.local/bin/nowm
 ```
 
@@ -45,7 +45,7 @@ Option 2: using `git`
 
 ```sh
 git clone https://github.com/K4zoku/nowm.git ~/.local/share/nowm
-ln -s ~/.local/share/nowm/bin/nowm ~/.local/bin/nowm
+ln -s ~/.local/share/nowm/src/nowm ~/.local/bin/nowm
 ```
 
 #### 📦 Package manager
