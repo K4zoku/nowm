@@ -5,23 +5,23 @@ _resize() {
 }
 
 _resize_relative() {
-	eval "$(xdotool getwindowfocus getwindowgeometry --shell | awk "/WIDTH|HEIGHT/")"
+	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
 	WINDOW_WIDTH=$(( WIDTH + "${1:-0}" ))
 	WINDOW_HEIGHT=$(( HEIGHT + "${2:-0}" ))
 
-	eval "$(xdotool getdisplaygeometry --shell | awk "/WIDTH|HEIGHT|X|Y/")"
+	eval "$(xdotool getdisplaygeometry --shell)"
 	DISPLAY_WIDTH="$(( WIDTH - X ))"
 	DISPLAY_HEIGHT="$(( HEIGHT - Y ))"
 
-	if [[ "${WINDOW_WIDTH}" < 1 ]]; then
+	if [ "${WINDOW_WIDTH}" -lt 1 ]; then
 		WINDOW_WIDTH=1
-	elif [[ "${WINDOW_WIDTH}" > "${DISPLAY_WIDTH}" ]]; then
+	elif [ "${WINDOW_WIDTH}" -gt "${DISPLAY_WIDTH}" ]; then
 		WINDOW_WIDTH="${DISPLAY_WIDTH}"
 	fi
 
-	if [[ "${WINDOW_HEIGHT}" < 1 ]]; then
+	if [ "${WINDOW_HEIGHT}" -lt 1 ]; then
 		WINDOW_HEIGHT=1
-	elif [[ "${WINDOW_HEIGHT}" > "${DISPLAY_HEIGHT}" ]]; then
+	elif [ "${WINDOW_HEIGHT}" -gt "${DISPLAY_HEIGHT}" ]; then
 		WINDOW_HEIGHT="${DISPLAY_HEIGHT}"
 	fi
 
@@ -37,31 +37,31 @@ _move_relative() {
 }
 
 _center() {
-	eval "$(xdotool getwindowfocus getwindowgeometry --shell | tail -n3 | head -n2)"
+	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
 	WINDOW_WIDTH="${WIDTH}"
 	WINDOW_HEIGHT="${HEIGHT}"
-	eval "$(xdotool getdisplaygeometry --shell | awk "/WIDTH|HEIGHT/")"
-	move "$(( (WIDTH - WINDOW_WIDTH) / 2 ))" "$(( (HEIGHT - WINDOW_HEIGHT) / 2 ))"
+	eval "$(xdotool getdisplaygeometry --shell)"
+	nowm move "$(( (WIDTH - WINDOW_WIDTH) / 2 ))" "$(( (HEIGHT - WINDOW_HEIGHT) / 2 ))"
 }
 
 _snap() {
-	eval "$(xdotool getwindowfocus getwindowgeometry --shell | awk "/WIDTH|HEIGHT/")"
-	W_WIDTH="${WIDTH}"
-	W_HEIGHT="${HEIGHT}"
+	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
+	WINDOW_WIDTH="${WIDTH}"
+	WINDOW_HEIGHT="${HEIGHT}"
 	eval "$(xdotool getdisplaygeometry --shell)"
 	case "${1:-0}" in
-	    left)   move 0 y                         ;;
-	    bottom) move x "$(( HEIGHT - W_HEIGHT ))";;
-	    top)    move x 0                         ;;
-	    right)  move "$(( WIDTH - W_WIDTH ))" y  ;;
-	    *)      move x y                         ;;
+	    left)   nowm move 0 y                              ;;
+	    bottom) nowm move x "$(( HEIGHT - WINDOW_HEIGHT ))";;
+	    top)    nowm move x 0                              ;;
+	    right)  nowm move "$(( WIDTH - WINDOW_WIDTH ))" y  ;;
+	    *)      nowm move x y                              ;;
 	esac
 }
 
 _pointer_focus() {
 	xdotool getmouselocation windowfocus
 
-	if [[ "$NOWM_RAISE_FOCUS" ]]; then
+	if [ "${NOWM_RAISE_ON_FOCUS}" = "1" ]; then
 		xdotool getwindowfocus windowraise
 	fi
 }
@@ -83,27 +83,35 @@ _kill() {
 }
 
 _logout() {
-	pkill -KILL -u "$(whoami)"
+	kill "$NOWM_PID"
 }
 
+_help() {
+	cat << EOF
+Usage: nowm [ACTION]
+
+If no action is specified, then, if no graphical server is running, start one and NoWM, otherwise rerun autostart script and sleep
+EOF
+}
+
+# Fuck this shit. Seriously. I spent hours trying to figure out why the fuck my postlaunch file doesnt execute just to understand that I'm using startx /usr/bin/nowm instead of the dev version. I'm out.
 noargs() {
 	if [ -z "${DISPLAY}" ]; then
-		NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
-		if [[ -f "${NOWM_AUTOSTART}" ]]; then
-			source "${NOWM_AUTOSTART}"
-		fi
 		exec startx "$(which nowm)"
 	else
+		export NOWM_PID="$$"
+		NOWM_AUTOSTART="${XDG_CONFIG_HOME:-${HOME}/.config}/nowm/autostart"
+		[ -x "${NOWM_AUTOSTART}" ] && "${NOWM_AUTOSTART}"
 		sleep infinity
 	fi
 }
 
-valid="resize|resize_relative|move|move_relative|center|snap|pointer_focus|select_focus|close|quit|kill|logout"
-if [[ "$1" =~ ^(${valid})$ ]]; then
-	_"$1" "${@:2}"
-elif [[ -z "$1" ]]; then
+valid="resize resize_relative move move_relative center snap pointer_focus select_focus close quit kill logout help"
+if echo "${valid}" | grep -wq "${1}" ; then
+	_"${1}" "${@:2}"
+elif [ -z "${1}" ]; then
 	noargs
 else
-	echo "Invalid command: $1"
+	echo "Invalid command: '${1}'"
 	exit 1
 fi
