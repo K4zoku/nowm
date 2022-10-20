@@ -64,20 +64,19 @@ basher install K4zoku/nowm
 
 Using [Arch User Repository](https://aur.archlinux.org):
 
-Use your preferred AUR helper:
+First of all you need to have `base-devel` group installed as it contains necessary utilities - `sudo pacman -Syu base-devel`. There are two packages providing NoWM - [nowm](https://aur.archlinux.org/packages/nowm) (stable release) and [nowm-git](https://aur.archlinux.org/packages/nowm-git) (latest commits). Choose which one you want to install and use your preferred AUR helper, eg:
 
 ```sh
 yay -S nowm-git
 ```
 
-or install it manually:
+or install it manually using `makepkg` command:
 
 ```sh
 git clone https://aur.archlinux.org/packages/nowm-git
 cd nowm-git
 makepkg -si
 ```
-
 
 > **Note** If you can and want to port NoWM to other package managers, feel free to do so.
 

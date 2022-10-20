@@ -1,9 +1,9 @@
 {
   "name": "nowm",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Managing window without a window manager",
   "global": "true",
-  "scripts": ["bin/nowm", "bin/nowmc"],
-  "files": ["man/nowm.1", "bin/nowmc"],
+  "scripts": ["bin/nowm"],
+  "files": ["man/nowm.1"],
   "install": "make install"
 }
