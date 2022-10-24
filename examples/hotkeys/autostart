@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Stop running SXHKD and start new instance
+pkill -x sxhkd
+sxhkd -c "${NOWM_CONFIG_HOME}/sxhkdrc" &

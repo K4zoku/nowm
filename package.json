@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Managing window without a window manager",
   "global": "true",
-  "scripts": ["bin/nowm"],
-  "files": ["man/nowm.1"],
+  "scripts": ["src/nowm"],
+  "files": ["src/nowm.1", "src/nowm.desktop"],
   "install": "make install"
 }

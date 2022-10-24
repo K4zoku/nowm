@@ -1,10 +1,16 @@
 #!/bin/sh
 
-_resize() {
+#################
+# Resize window #
+#################
+
+# By absolute size.
+nowm_resize_absolute() {
 	xdotool getwindowfocus windowsize -- "${1:-0}" "${2:-0}"
 }
 
-_resize_relative() {
+# By relative size from current size (+/-).
+nowm_resize_relative() {
 	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
 	WINDOW_WIDTH=$(( WIDTH + "${1:-0}" ))
 	WINDOW_HEIGHT=$(( HEIGHT + "${2:-0}" ))
@@ -28,15 +34,52 @@ _resize_relative() {
 	xdotool windowsize -- "${WINDOW}" "${WINDOW_WIDTH}" "${WINDOW_HEIGHT}"
 }
 
-_move() {
+# Autodetect.
+nowm_resize() {
+	if echo "${1}" | grep -qE '^(\+|-)[0-9]+$'; then
+		nowm resize_relative "${1:-0}" 0
+	else
+		nowm resize_absolute "${1:-x}" y
+	fi
+
+	if echo "${2}" | grep -qE '^(\+|-)[0-9]+$'; then
+		nowm resize_relative 0 "${2:-0}"
+	else
+		nowm resize_absolute x "${2:-y}"
+	fi
+}
+
+###############
+# Move window #
+###############
+
+# By absolute coordinates.
+nowm_move_absolute() {
 	xdotool getwindowfocus windowmove -- "${1:-0}" "${2:-0}"
 }
 
-_move_relative() {
+# By relative coordinates from current position.
+nowm_move_relative() {
 	xdotool getwindowfocus windowmove --relative -- "${1:-0}" "${2:-0}"
 }
 
-_center() {
+# Autodetect.
+nowm_move() {
+	if echo "${1}" | grep -qE '^(\+|-)[0-9]+$'; then
+		nowm move_relative "${1:-0}" 0
+	else
+		nowm move_absolute "${1:-x}" y
+	fi
+
+	if echo "${2}" | grep -qE '^(\+|-)[0-9]+$'; then
+		nowm move_relative 0 "${2:-0}"
+	else
+		nowm move_absolute x "${2:-y}"
+	fi
+}
+
+# Place at the center of the screen.
+nowm_center() {
 	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
 	WINDOW_WIDTH="${WIDTH}"
 	WINDOW_HEIGHT="${HEIGHT}"
@@ -44,7 +87,8 @@ _center() {
 	nowm move "$(( (WIDTH - WINDOW_WIDTH) / 2 ))" "$(( (HEIGHT - WINDOW_HEIGHT) / 2 ))"
 }
 
-_snap() {
+# Place at the side of the screen (left, right, top, bottom). Includes resizing.
+nowm_snap() {
 	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
 	WINDOW_WIDTH="${WIDTH}"
 	WINDOW_HEIGHT="${HEIGHT}"
@@ -58,44 +102,55 @@ _snap() {
 	esac
 }
 
-_pointer_focus() {
-	xdotool getmouselocation windowfocus
 
-	if [ "${NOWM_RAISE_ON_FOCUS}" = "1" ]; then
-		xdotool getwindowfocus windowraise
-	fi
+##############################
+# Manipulations with windows #
+##############################
+
+# Focus window under cursor.
+nowm_pointer_focus() {
+	xdotool getmouselocation windowfocus
 }
 
-_select_focus() {
+# Raise focused window. Useful in combination 'nowm pointer_focus && nowm raise'.
+nowm_raise() {
+	xdotool getwindowfocus windowraise
+}
+
+#TODO
+# Select window by clicking on it. Useless imo.
+nowm_select_focus() {
 	xdotool selectwindow windowfocus
 }
 
-_close() {
+# Close focused window. Does NOT kill the child processes.
+nowm_close() {
 	xdotool getwindowfocus windowclose
 }
 
-_quit() {
+#TODO
+# Does nothing? Idk.
+nowm_quit() {
 	xdotool getwindowfocus windowquit
 }
 
-_kill() {
+# Kill focused window. Kills the child processes too.
+nowm_kill() {
 	xdotool getwindowfocus windowkill
 }
 
-_logout() {
+
+################
+# NoWM session #
+################
+
+# Log out of the current session.
+nowm_logout() {
 	kill "$NOWM_PID"
 }
 
-_help() {
-	cat << EOF
-Usage: nowm [ACTION]
-
-If no action is specified, then, if no graphical server is running, start one and NoWM, otherwise rerun autostart script and sleep
-EOF
-}
-
-# Fuck this shit. Seriously. I spent hours trying to figure out why the fuck my postlaunch file doesnt execute just to understand that I'm using startx /usr/bin/nowm instead of the dev version. I'm out.
-noargs() {
+# Start NoWM session or, if it is already running, rerun autostart script.
+nowm_start() {
 	if [ -z "${DISPLAY}" ]; then
 		exec startx "$(which nowm)"
 	else
@@ -106,12 +161,34 @@ noargs() {
 	fi
 }
 
-valid="resize resize_relative move move_relative center snap pointer_focus select_focus close quit kill logout help"
-if echo "${valid}" | grep -wq "${1}" ; then
-	_"${1}" "${@:2}"
-elif [ -z "${1}" ]; then
-	noargs
+# Display help message and exit.
+nowm_help() {
+	cat << EOF
+Usage: nowm [ACTION]
+
+If no action is specified, then, if no graphical server is running, start one and NoWM, otherwise rerun autostart script and sleep
+EOF
+	exit "${1:-0}"
+}
+
+
+########
+# Main #
+########
+
+# String of space-separated valid arguments.
+valid="resize resize_absolute resize_relative move move_absolute move_relative center snap pointer_focus raise select_focus close quit kill logout help"
+
+# If no argument is present, start NoWM session.
+if [ -z "${1}" ]; then
+	nowm_start
+
+# If argument is present and valid, run the corresponding function.
+elif echo "${valid}" | grep -wq "${1}" ; then
+	nowm_"${1}" "${@:2}"
+
+# If argument is present but invalid, display error and help messages
 else
 	echo "Invalid command: '${1}'"
-	exit 1
+	nowm_help 1
 fi
