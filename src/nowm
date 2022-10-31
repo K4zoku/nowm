@@ -49,6 +49,7 @@ nowm_resize() {
 	fi
 }
 
+
 ###############
 # Move window #
 ###############
@@ -87,7 +88,7 @@ nowm_center() {
 	nowm move "$(( (WIDTH - WINDOW_WIDTH) / 2 ))" "$(( (HEIGHT - WINDOW_HEIGHT) / 2 ))"
 }
 
-# Place at the side of the screen (left, right, top, bottom). Includes resizing.
+# Place at the side of the screen (left, right, top, bottom).
 nowm_snap() {
 	eval "$(xdotool getwindowfocus getwindowgeometry --shell)"
 	WINDOW_WIDTH="${WIDTH}"
@@ -98,7 +99,6 @@ nowm_snap() {
 	    bottom) nowm move x "$(( HEIGHT - WINDOW_HEIGHT ))";;
 	    top)    nowm move x 0                              ;;
 	    right)  nowm move "$(( WIDTH - WINDOW_WIDTH ))" y  ;;
-	    *)      nowm move x y                              ;;
 	esac
 }
 
@@ -117,8 +117,7 @@ nowm_raise() {
 	xdotool getwindowfocus windowraise
 }
 
-#TODO
-# Select window by clicking on it. Useless imo.
+# Select window by clicking on it. Can be used if 'nowm_pointer_focus' does not work
 nowm_select_focus() {
 	xdotool selectwindow windowfocus
 }
