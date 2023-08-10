@@ -14,9 +14,9 @@ A dead simple tool to managing windows from the [tty](https://en.wikipedia.org/w
 
 - No [virtual desktops](https://en.wikipedia.org/wiki/Virtual_desktop).
 - No [window decorations](https://en.wikipedia.org/wiki/Window_(computing)#Window_decoration).
-- No [widgets](https://github.com/NNBnh/dots/wiki/wm-job#-widgets "Like bar, menu, ...").
-- No [hotkeys](https://github.com/NNBnh/dots/wiki/wm-job#%EF%B8%8F-hotkeys).
-- No [wallpaper](https://github.com/NNBnh/dots/wiki/wm-job#%EF%B8%8F-wallpaper).
+- No [widgets](https://nnbnh.github.io/blog/en/posts/5/#widgets).
+- No [hotkeys](https://nnbnh.github.io/blog/en/posts/5/#hotkeys).
+- No [wallpaper](https://nnbnh.github.io/blog/en/posts/5/#wallpaper).
 - No [ICCCM](https://web.archive.org/web/20190617214524/https://raw.githubusercontent.com/kfish/xsel/1a1c5edf0dc129055f7764c666da2dd468df6016/rant.txt).
 - No [EWMH](https://en.wikipedia.org/wiki/Extended_Window_Manager_Hints).
 - And everything is float.
