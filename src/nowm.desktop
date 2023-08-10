@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=NoWM (X11)
+Comment=NoWM - managing window without a window manager
+Exec=nowm
+TryExec=nowm
+Type=XSession

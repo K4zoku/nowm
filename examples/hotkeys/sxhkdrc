@@ -4,11 +4,11 @@
 
 # terminal
 super + Return
-    urxvt
+	urxvt
 
 # reload sxhkd configuration files
 super + Escape
-    pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd
 
 ################
 # NOWM HOTKEYS #
@@ -16,20 +16,20 @@ super + Escape
 
 # [nowm] logout
 super + alt + q
-    nowm logout
+	nowm logout
 
 # [nowm] move
 super + {Left,Down,Up,Right}
-    nowm move_relative {-4 0, 0 4, 0 -4, 4 0}
+	nowm move_relative {-10 0, 0 10, 0 -10, 10 0}
 
 # [nowm] resize
-super + {a,s,w,d}
-    nowm resize_relative {-4 0, 0 4, 0 -4, 4 0}
+super + {h,j,k,l}
+	nowm resize_relative {-10 0, 0 10, 0 -10, 10 0}
 
 # [nowm] window close
-super + w
-    nowm close
+alt + q
+	nowm close
 
 # [nowm] focus
 ~button1
-    nowm pointer_focus
+	nowm pointer_focus

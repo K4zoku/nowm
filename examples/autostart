@@ -1,3 +1,0 @@
-#!/bin/sh
-
-pgrep -x sxhkd || sxkhd -c "${NOWM_CONFIG_HOME}/sxhkdrc" &

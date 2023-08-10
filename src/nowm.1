@@ -1,0 +1,53 @@
+.TH NOWM "1" "2022" "K4zoku" "NoWM manual"
+.SH NAME
+NoWM \- Managing window without a window manager
+.SH SYNOPSIS
+.B nowm
+.SH DESCRIPTION
+A dead simple tool to managing windows from the tty, written in shell script.
+.SH OPTIONS
+.TP
+\fBresize [+-]w [+-]h\fR
+Shrink or grow the current window by the given w/h arguments. If you set + or - sign before w/h then they become relative coordinates, otherwise treating them as absolute
+\fBresize_absolute w h\fR
+Shrink or grow the current window by the given absolute w/h arguments
+.TP
+\fBresize_relative w h\fR
+Shrink or grow the current window by the given relative w/h arguments
+.TP
+\fBmove x y\fR
+Shift the current window by the given x/y coordinates. If you set + or - sign before x/y then they become relative coordinates, otherwise treating them as absolute
+\fBmove_absolute x y\fR
+Shift the current window by the given absolute x/y coordinates
+.TP
+\fBmove_relative x y\fR
+Shift the current window by the given relative x/y coordinates
+.TP
+\fBcenter\fR
+Move currently focused window to the center of the screen
+.TP
+\fBsnap (top|bottom|left|right)\fR
+Move and resize the current window to fill the DIRECTION half of the screen
+.TP
+\fBpointer_focus\fR
+Focus the window underneath the pointer
+.TP
+\fBraise\fR
+Raise currently focused window
+.TP
+\fBselect_focus\fR
+Focus window using selection cursor
+.TP
+\fBclose\fR
+Destroy the window but will not try to kill the client controlling it
+.TP
+\fBquit\fR
+Close window gracefully, this action sends a request, allowing the application to apply close confirmation mechanics
+.TP
+\fBkill\fR
+Destroy the window and kill the client controlling it
+.TP
+\fBlogout\fR
+Terminate current NoWM session (also kills applications)
+.SH REPORTING BUGS
+Report bugs to https://github.com/K4zoku/nowm/issues
